@@ -62,10 +62,14 @@ The Healer's Scribe uses modern NLP to:
 ## Contributing
 - See docs/CONTRIBUTING.md
 
-## Value
-- Recruiter- and reviewer-friendly
-- Secure, maintainable, and extensible
-- Ready for production and open-source adoption
+
+## Upcoming Features
+- **Retrieval-Augmented Generation (RAG):**
+  - Planned integration for advanced Q&A and knowledge retrieval from healer notes and medical texts.
+  - Not yet implemented, but designed for future extensibility.
+
+## Project Context
+- This project was developed as part of a competition challenge to demonstrate modular NLP engineering, security, and open-source best practices.
 pip install spacy nltk transformers torch
 python -m spacy download en_core_web_sm
 python -c "import nltk; nltk.download('vader_lexicon')"
