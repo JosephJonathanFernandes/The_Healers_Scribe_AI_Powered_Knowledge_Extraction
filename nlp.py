@@ -158,3 +158,4 @@ def parse_text(text: str) -> List[Dict]:
 if __name__ == "__main__":
     s = "Healer A used herb willow for fever, it worked well.\nHealer B used honey for cough, patients improved.\nHealer C tried willow for infection but results were poor."
     print(parse_text(s))
+

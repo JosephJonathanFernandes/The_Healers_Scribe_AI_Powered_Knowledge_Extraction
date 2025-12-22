@@ -25,3 +25,5 @@ for i, r in enumerate(records, 1):
     print(f'   Outcome: {r["outcome"][:50] if r["outcome"] else "N/A"}...')
     print(f'   Sentiment: {r["sentiment"]}')
     print(f'   Raw: {r["raw"][:70]}...')
+
+

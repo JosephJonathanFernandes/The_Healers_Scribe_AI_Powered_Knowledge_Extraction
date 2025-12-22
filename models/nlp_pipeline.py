@@ -537,3 +537,4 @@ def process_scrolls(text: str) -> Dict[str, Any]:
 if __name__ == '__main__':
     sample = "Healer Anna used garlic for infections — patients healed quickly. Healer John used saltwater for fever — it didn't help."
     print(process_scrolls(sample))
+

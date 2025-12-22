@@ -1,63 +1,71 @@
-# The Healer's Scribe — AI-Powered Knowledge Extraction
+# The Healer's Scribe
 
-🧙‍♀️ An NLP-powered tool that extracts "hidden wisdom" from unstructured healer notes, patient reviews, and medical reports — automatically identifying effective cures, common failures, and emerging patterns.
+A modular, production-grade NLP platform for extracting insights from unstructured healer notes and medical texts.
 
 ## Problem Statement
-
-Healers across towns keep records differently — some by symbol, some by prayer. Modern researchers face a similar challenge with scattered patient reviews, incident reports, and forum comments. How can we extract usable wisdom from this text to identify which cures help and which fail?
+Healers and researchers face scattered, unstructured records. Extracting actionable insights is slow and error-prone.
 
 ## Solution
+The Healer's Scribe uses modern NLP to:
+- Extract entities (treatments, symptoms, outcomes)
+- Classify effectiveness and sentiment
+- Visualize patterns and trends
+- Provide a secure, extensible API and UI
 
-**The Healer's Scribe** uses AI/NLP to:
-- **Extract** key entities: diseases, symptoms, treatments, outcomes
-- **Classify** records as effective cure, failure, complaint, praise, or neutral
-- **Analyze** sentiment to surface best/worst remedies
-- **Visualize** patterns through interactive dashboards
+## Architecture
+- Modular Python backend (see docs/ARCHITECTURE.md)
+- Flask API and web UI
+- Config-driven, secure by default
+- Extensible NLP pipeline (spaCy, NLTK, scikit-learn, transformers)
 
----
-
-## Features
-
-✨ **Core NLP Capabilities**
-- Named Entity Recognition (NER) for treatments, symptoms, diseases
-- Text classification (effective/failure/complaint/praise/neutral)
-- Sentiment analysis with VADER
-- Topic modeling to identify common themes
-- Keyword extraction using TF-IDF and spaCy
-
-📊 **Visualization & Insights**
-- Interactive Plotly charts showing effective vs ineffective cures
-- Effectiveness percentages for each treatment
-- Auto-generated summaries highlighting strongest/weakest cures
-- Export results as CSV, JSON, TXT, or PDF
-
-🚀 **REST API**
-- `GET /health` — Health check endpoint
-- `POST /api/process` — Process text and return structured JSON results
-- Full web UI at `/app` for interactive exploration
-
----
-
-## Prerequisites
-
+## Tech Stack
 - Python 3.8+
-- Virtual environment (recommended)
+- Flask
+- spaCy, NLTK, scikit-learn, transformers (optional)
+- Plotly (visualization)
+- Docker-ready
 
----
+## Setup
+1. Clone the repo and create a virtual environment:
+  ```sh
+  python -m venv .venv
+  source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+  pip install -r requirements.txt
+  cp .env.example .env
+  # Edit .env as needed
+  ```
+2. Run the app:
+  ```sh
+  flask run
+  # or python app.py
+  ```
+3. Sample input data is in `sample_data/sample_input.txt`
 
-## Quick Start
+## Testing
+- Tests in `tests/` (unit & integration)
+- Run: `pytest`
+- Coverage goal: 90%+
 
-### 1. Setup Environment
+## Linting & Formatting
+- Use `black` for formatting
+- Use `flake8` for linting
+- Pre-commit hooks recommended (see below)
 
-```powershell
-# Create and activate virtual environment
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+## CI/CD
+- GitHub Actions pipeline recommended (see below)
 
-# Install core dependencies
-pip install -r requirements.txt
+## Security
+- No secrets in code; use `.env` and `config/`
+- Input validation and error handling throughout
+- See SECURITY.md
 
-# Optional: Install advanced NLP libraries
+## Contributing
+- See docs/CONTRIBUTING.md
+
+## Value
+- Recruiter- and reviewer-friendly
+- Secure, maintainable, and extensible
+- Ready for production and open-source adoption
 pip install spacy nltk transformers torch
 python -m spacy download en_core_web_sm
 python -c "import nltk; nltk.download('vader_lexicon')"

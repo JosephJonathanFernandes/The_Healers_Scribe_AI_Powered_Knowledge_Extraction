@@ -9,6 +9,8 @@ import json
 from werkzeug.utils import secure_filename
 import tempfile
 import pathlib
+from src.services.processing_service import analyze_text
+from src.utils.logging import get_logger
 
 try:
     from PyPDF2 import PdfReader
@@ -23,6 +25,7 @@ except Exception:
     FPDF_AVAILABLE = False
 
 app = Flask(__name__)
+logger = get_logger()
 
 SAMPLE_TEXT = """
 Healer A used herb willow for fever, it worked well.
@@ -76,7 +79,7 @@ def index():
                 text = uploaded.stream.read().decode('utf-8', errors='ignore')
 
         # Process text and render results page
-        result = process_scrolls(text)
+        result = analyze_text(text)
         result.setdefault('records', [])
         result.setdefault('cures_pos_counts', {})
         result.setdefault('cures_neg_counts', {})
@@ -178,7 +181,7 @@ def api_process():
         return make_response((json.dumps({'error': 'no text provided'}), 400, {'Content-Type': 'application/json'}))
 
     try:
-        result = process_scrolls(text)
+        result = analyze_text(text)
         # ensure keys exist for stable clients
         result.setdefault('records', [])
         result.setdefault('cures_pos_counts', {})
@@ -216,7 +219,7 @@ def api_similar():
     
     try:
         # Process the text to get records
-        result = process_scrolls(text)
+        result = analyze_text(text)
         records = result.get('records', [])
         
         # Find similar cases
@@ -245,7 +248,7 @@ def ask_rag():
     # If text is provided, process it and answer the question
     if text:
         from models.nlp_pipeline import answer_question
-        result = process_scrolls(text)
+        result = analyze_text(text)
         records = result.get('records', [])
         answer_text = answer_question(q, records)
     else:
