@@ -37,6 +37,36 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 
+# Python environment and secrets
+.env
+.env.*
+*.env
+*.secret
+secrets.*
+
+# Coverage reports
+.coverage
+coverage.xml
+htmlcov/
+
+# Test and log files
+*.log
+logs/
+pytest_cache/
+.pytest_cache/
+
+# IDE/editor configs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Misc
+*.bak
+*.tmp
+*.swp
+*.orig
+
 # IDEs
 .vscode/
 .idea/

@@ -1,0 +1,6 @@
+# pyproject.toml for Black
+[tool.black]
+line-length = 88
+exclude = '''
+/(\.|venv|build|dist|static|templates)/
+'''
