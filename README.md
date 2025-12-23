@@ -235,31 +235,30 @@ MIT License — feel free to use for hackathons, prototypes, or research.
 
 ---
 
-## Contact
+## Contact & Project History
 
-Built for "The Knowledge of the Healers" AI challenge.  
-Repository: `temporal_forge`  
-Owner: JosephJonathanFernandes
-- Create Flask app, templates and static files.
+This project was built for "The Knowledge of the Healers" AI challenge.
 
-Hour 2 — Input/output pages
-- Build `index.html` and `result.html` pages to accept input and show results.
+- Repository: `temporal_forge`
+- Owner: JosephJonathanFernandes
+- Contact: [Open an Issue](https://github.com/JosephJonathanFernandes/temporal_forge/issues) or see repository profile
 
-Hour 3–4 — AI core
-- Implement `models/nlp_pipeline.py` (NER, sentiment, TF-IDF, summarization fallbacks).
+### Project Milestones
+- Initial design and modularization of Flask app and NLP pipeline
+- Implementation of core NLP (entity extraction, sentiment, topic modeling)
+- Secure configuration and environment management
+- Professional documentation, testing, and CI/CD integration
+- Modern UI/UX with accessible templates and static assets
 
-Hour 5 — Connect Flask
-- Wire routes to processing and add download endpoints (CSV/JSON/TXT/PDF).
+### Key Files & Structure
+- `app.py` — Flask entrypoint and API
+- `src/core/` — Modular NLP logic (entity extraction, sentiment, topics)
+- `src/services/` — Service layer for business logic
+- `src/utils/` — Logging and utility functions
+- `config/` — Environment and settings
+- `templates/` — Jinja2 HTML templates
+- `static/` — CSS and JS assets
+- `tests/` — Unit and integration tests
+- `requirements.txt` — Python dependencies
 
-Hour 6 — Polish and present
-- Add charts, styling, and package the folder for deployment or demo.
-
-Files included in this repo
-- `app.py` — Flask server and routes (index, downloads)
-- `models/nlp_pipeline.py` — processing wrapper (uses heuristics or optional heavy libs)
-- `nlp.py` — simple rule-based parser used as fallback
-- `templates/` — `index.html` (main UI) and `result.html` (result layout)
-- `static/` — `styles.css` and `chart.js` for UI polish
-- `requirements.txt` — minimal deps; extras optional for better NLP
-
-Want a ready package? Run the `package_project.ps1` script (added to repo) or use the PowerShell compress command to build a zip of the project.
+For packaging, use the provided `package_project.ps1` script or standard zip tools.
