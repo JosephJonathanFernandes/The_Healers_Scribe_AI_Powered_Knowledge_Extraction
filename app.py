@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, make_response, jsonify
-from models.nlp_pipeline import process_scrolls
+from src.core.nlp_pipeline import process_scrolls
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -24,8 +24,11 @@ try:
 except Exception:
     FPDF_AVAILABLE = False
 
+
+from config.settings import settings
 app = Flask(__name__)
 logger = get_logger()
+GROQ_API_KEY = settings.GROQ_API_KEY
 
 SAMPLE_TEXT = """
 Healer A used herb willow for fever, it worked well.
@@ -204,7 +207,7 @@ def api_similar():
     
     Example JSON: {"query": "used garlic for infection", "text": "full healer notes..."}
     """
-    from models.nlp_pipeline import find_similar_cases
+    from src.core.nlp_pipeline import find_similar_cases
     
     data = request.get_json(silent=True) if request.is_json else {}
     query = data.get('query') or request.form.get('query')
@@ -236,29 +239,85 @@ def api_similar():
         return make_response((json.dumps({'error': 'search_failed'}), 500, {'Content-Type': 'application/json'}))
 
 
+
+import time
+import requests
+
+# Simple in-memory rate limit (per IP, per minute)
+_RAG_RATE_LIMIT = {}
+_RAG_LIMIT = 10  # max 10 requests/minute per IP
+
+def _check_rag_rate_limit(ip):
+    now = int(time.time() // 60)
+    key = f"{ip}:{now}"
+    count = _RAG_RATE_LIMIT.get(key, 0)
+    if count >= _RAG_LIMIT:
+        return False
+    _RAG_RATE_LIMIT[key] = count + 1
+    return True
+
+def _call_groq_rag_api(question, context, api_key):
+    # Guardrail: Only allow if API key is set
+    if not api_key:
+        return "RAG backend not configured. Contact admin.", False
+    # Guardrail: Limit input size
+    if len(context) > 8000:
+        return "Context too large for RAG. Please reduce input.", False
+    # Example Groq API call (replace with actual endpoint and params)
+    url = "https://api.groq.com/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "model": "mixtral-8x7b-32768",  # or other supported model
+        "messages": [
+            {"role": "system", "content": "You are a helpful medical assistant. Answer based on the provided healer notes."},
+            {"role": "user", "content": f"Context: {context}\n\nQuestion: {question}"}
+        ],
+        "max_tokens": 512,
+        "temperature": 0.2
+    }
+    try:
+        resp = requests.post(url, headers=headers, json=payload, timeout=20)
+        if resp.status_code == 200:
+            data = resp.json()
+            answer = data['choices'][0]['message']['content']
+            return answer, True
+        else:
+            return f"Groq API error: {resp.status_code} {resp.text}", False
+    except Exception as e:
+        return f"Error contacting Groq API: {e}", False
+
 @app.route('/ask-rag', methods=['POST'])
 def ask_rag():
-    # Enhanced Q&A endpoint using extracted knowledge
-    q = request.form.get('question') or request.json.get('question') if request.is_json else None
-    text = request.form.get('text') or request.json.get('text') if request.is_json else None
-    
-    if not q:
-        return make_response((json.dumps({'error': 'no question provided'}), 400, {'Content-Type':'application/json'}))
-    
-    # If text is provided, process it and answer the question
-    if text:
-        from models.nlp_pipeline import answer_question
-        result = analyze_text(text)
-        records = result.get('records', [])
-        answer_text = answer_question(q, records)
+    # Enhanced Q&A endpoint using Groq RAG backend
+    ip = request.remote_addr or 'unknown'
+    if not _check_rag_rate_limit(ip):
+        return make_response((json.dumps({'error': 'Rate limit exceeded. Try again later.'}), 429, {'Content-Type':'application/json'}))
+
+    if request.is_json:
+        q = request.json.get('question')
+        text = request.json.get('text')
     else:
-        answer_text = "No text data provided. Please include 'text' field with healer notes to analyze."
-    
-    answer = {
-        'answer': answer_text,
-        'question': q
-    }
-    return make_response((json.dumps(answer, ensure_ascii=False), 200, {'Content-Type':'application/json'}))
+        q = request.form.get('question')
+        text = request.form.get('text')
+
+    if not q or not isinstance(q, str) or not q.strip():
+        return make_response((json.dumps({'error': 'No question provided'}), 400, {'Content-Type':'application/json'}))
+    if not text or not isinstance(text, str) or not text.strip():
+        return make_response((json.dumps({'error': 'No text context provided'}), 400, {'Content-Type':'application/json'}))
+
+    # Guardrail: Only allow certain question types (optional, e.g. block unsafe)
+    if any(x in q.lower() for x in ["hack", "password", "inject", "bypass", "admin"]):
+        return make_response((json.dumps({'error': 'Unsafe question blocked by guardrails.'}), 400, {'Content-Type':'application/json'}))
+
+    # Call Groq RAG API
+    answer, ok = _call_groq_rag_api(q.strip(), text.strip(), GROQ_API_KEY)
+    if ok:
+        return make_response((json.dumps({'answer': answer, 'question': q}, ensure_ascii=False), 200, {'Content-Type':'application/json'}))
+    else:
+        return make_response((json.dumps({'error': answer}), 500, {'Content-Type':'application/json'}))
     
 
 

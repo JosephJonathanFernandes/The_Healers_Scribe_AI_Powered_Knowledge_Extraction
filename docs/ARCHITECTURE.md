@@ -1,3 +1,4 @@
+
 # Architecture Overview: The Healer's Scribe
 
 ## Purpose
@@ -5,9 +6,8 @@ A modular, production-grade NLP platform for extracting insights from unstructur
 
 ## High-Level Architecture
 
-- **src/**: Core application logic (NLP, API, services)
+- **src/**: Core application logic (NLP, API, services, utils)
 - **config/**: Configuration, environment, and secrets management
-// removed models/ as all logic is now in src/
 - **static/**: Frontend assets (JS, CSS)
 - **templates/**: Jinja2 HTML templates
 - **scripts/**: Automation, utilities, and setup scripts
@@ -16,7 +16,7 @@ A modular, production-grade NLP platform for extracting insights from unstructur
 
 ## Key Modules
 - **app.py**: Flask entrypoint, API, and web UI
-- **src/nlp/**: NLP logic, entity extraction, sentiment, keyword analysis
+- **src/core/**: NLP logic, entity extraction, sentiment, keyword analysis
 - **src/services/**: Service layer for business logic
 - **src/utils/**: Utility functions, logging, error handling
 
@@ -26,7 +26,7 @@ A modular, production-grade NLP platform for extracting insights from unstructur
 3. Results are returned as structured data and visualized
 
 ## Extensibility
-- Add new NLP modules in `src/nlp/`
+- Add new NLP modules in `src/core/`
 - Add new API endpoints in `src/`
 - Add new tests in `tests/`
 
@@ -35,4 +35,4 @@ A modular, production-grade NLP platform for extracting insights from unstructur
 - Input validation and error handling throughout
 
 ## Ownership
-- See `CONTRIBUTING.md` for code ownership and review process
+- See [CONTRIBUTING.md](CONTRIBUTING.md) for code ownership and review process

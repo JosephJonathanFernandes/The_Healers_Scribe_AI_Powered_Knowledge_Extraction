@@ -1,98 +1,86 @@
 # The Healer's Scribe
 
-A modular, production-grade NLP platform for extracting insights from unstructured healer notes and medical texts.
+**A modular, production-grade NLP platform for extracting insights from unstructured healer notes and medical texts.**
 
-## Problem Statement
+---
+
+## 🚩 Problem
 Healers and researchers face scattered, unstructured records. Extracting actionable insights is slow and error-prone.
 
-## Solution
+## 💡 Solution
 The Healer's Scribe uses modern NLP to:
 - Extract entities (treatments, symptoms, outcomes)
 - Classify effectiveness and sentiment
 - Visualize patterns and trends
 - Provide a secure, extensible API and UI
 
-## Architecture
-- Modular Python backend (see docs/ARCHITECTURE.md)
+## 🏗️ Architecture
+- Modular Python backend (see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md))
 - Flask API and web UI
 - Config-driven, secure by default
 - Extensible NLP pipeline (spaCy, NLTK, scikit-learn, transformers)
 
-## Tech Stack
+## 🛠️ Tech Stack
 - Python 3.8+
 - Flask
 - spaCy, NLTK, scikit-learn, transformers (optional)
 - Plotly (visualization)
 - Docker-ready
 
-## Setup
-1. Clone the repo and create a virtual environment:
-  ```sh
-  python -m venv .venv
-  source .venv/bin/activate  # or .venv\Scripts\activate on Windows
-  pip install -r requirements.txt
-  cp .env.example .env
-  # Edit .env as needed
-  ```
-2. Run the app:
-  ```sh
-  flask run
-  # or python app.py
-  ```
-3. Sample input data is in `sample_data/sample_input.txt`
+## 📦 Repository Structure
 
-## Testing
+```
+src/            # Core logic (NLP, API, services, utils)
+config/         # Configuration and environment
+static/         # Frontend assets (JS, CSS)
+templates/      # Jinja2 HTML templates
+scripts/        # Automation and utilities
+tests/          # Unit and integration tests
+docs/           # Documentation and guides
+sample_data/    # Example input data
+requirements.txt
+.env.example    # Environment variable template
+app.py          # Entrypoint (Flask app)
+```
+
+## 🚀 Getting Started
+
+1. **Clone and set up environment:**
+   ```sh
+   git clone <repo-url>
+   cd The_Healers_Scribe_AI_Powered_Knowledge_Extraction
+   python -m venv .venv
+   source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+   pip install -r requirements.txt
+   cp .env.example .env
+   # Edit .env as needed
+   ```
+2. **Run the app:**
+   ```sh
+   flask run
+   # or python app.py
+   ```
+3. **Visit:** [http://localhost:5000](http://localhost:5000)
+
+## 🧪 Testing
 - Tests in `tests/` (unit & integration)
 - Run: `pytest`
 - Coverage goal: 90%+
 
-## Linting & Formatting
+## 🧹 Linting & Formatting
 - Use `black` for formatting
 - Use `flake8` for linting
 - Pre-commit hooks recommended (see below)
 
-## CI/CD
-- GitHub Actions pipeline recommended (see below)
-
-## Security
+## 🔒 Security
 - No secrets in code; use `.env` and `config/`
 - Input validation and error handling throughout
-- See SECURITY.md
+- See [SECURITY.md](SECURITY.md)
 
-## Contributing
-- See docs/CONTRIBUTING.md
+## 🤝 Contributing
+- See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)
 
-
-## Upcoming Features
-- **Retrieval-Augmented Generation (RAG):**
-  - Planned integration for advanced Q&A and knowledge retrieval from healer notes and medical texts.
-  - Not yet implemented, but designed for future extensibility.
-
-## Project Context
-- This project was developed as part of a competition challenge to demonstrate modular NLP engineering, security, and open-source best practices.
-pip install spacy nltk transformers torch
-python -m spacy download en_core_web_sm
-python -c "import nltk; nltk.download('vader_lexicon')"
-```
-
-### 2. Run the Application
-
-```powershell
-# Set Flask app
-$env:FLASK_APP = 'app.py'
-
-# Run in development mode
-flask run
-
-# Or run directly
-python app.py
-```
-
-Visit: `http://localhost:5000`
-
----
-
-## API Usage
+## 🛡️ API Usage
 
 ### Health Check
 ```bash
@@ -116,48 +104,31 @@ curl -X POST http://localhost:5000/api/process \
 - `topics`: Top themes from the text
 - `sentiment_scores`: VADER sentiment scores
 
----
+## 🧬 NLP Pipeline Details
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for full details.
 
-## Project Structure
+## 📝 Documentation
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md): System design and data flow
+- [CONTRIBUTING.md](docs/CONTRIBUTING.md): How to contribute
+- [SECURITY.md](SECURITY.md): Security policy
+- [CHANGELOG.md](CHANGELOG.md): Release notes
 
-```
-temporal_forge/
-├── app.py                  # Flask application with web UI and API
-├── nlp.py                  # Rule-based NLP parser
-├── models/
-│   └── nlp_pipeline.py    # Advanced NLP pipeline with NER, classification, topic modeling
-├── templates/              # HTML templates
-│   ├── landing.html
-│   ├── index.html
-│   └── result.html
-├── static/                 # CSS and JavaScript
-│   ├── styles.css
-│   ├── ui.js
-│   ├── chat.js
-│   └── chart.js
-├── tests/
-│   └── test_nlp.py        # Pytest unit tests
-├── scripts/
-│   └── run_nlp_test.py    # Test script for NLP modules
-├── sample_input.txt        # Example input data
-├── requirements.txt        # Python dependencies
-└── .env.example           # Environment configuration template
-```
+## 🏆 Judging Criteria Alignment
+| Criterion | Implementation |
+|-----------|----------------|
+| **Innovation (40%)** | Automatic structuring of unstructured data; entity extraction; multi-class classification; creative visualizations |
+| **AI Implementation (30%)** | NER, text classification, sentiment analysis, topic modeling; uses spaCy, sklearn, VADER, Transformers |
+| **MVP (20%)** | End-to-end working prototype: paste text → get dashboard with actionable insights; API + web UI |
 
----
+## 📈 Future Enhancements
+- [ ] Fine-tuned NER models for medical domain
+- [ ] Multi-language support
+- [ ] Time-series analysis for cure effectiveness trends
+- [ ] RAG-based chatbot for querying extracted knowledge
+- [ ] SQLite persistence for historical tracking
 
-## Testing
-
-```powershell
-# Run all tests
-pytest
-
-# Run with verbose output
-pytest -v
-
-# Run specific test file
-pytest tests/test_nlp.py
-```
+## 📄 License
+MIT License — feel free to use for hackathons, prototypes, or research.
 
 ---
 
