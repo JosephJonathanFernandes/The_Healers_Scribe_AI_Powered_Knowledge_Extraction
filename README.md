@@ -113,23 +113,6 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for full details.
 - [SECURITY.md](SECURITY.md): Security policy
 - [CHANGELOG.md](CHANGELOG.md): Release notes
 
-## 🏆 Judging Criteria Alignment
-| Criterion | Implementation |
-|-----------|----------------|
-| **Innovation (40%)** | Automatic structuring of unstructured data; entity extraction; multi-class classification; creative visualizations |
-| **AI Implementation (30%)** | NER, text classification, sentiment analysis, topic modeling; uses spaCy, sklearn, VADER, Transformers |
-| **MVP (20%)** | End-to-end working prototype: paste text → get dashboard with actionable insights; API + web UI |
-
-## 📈 Future Enhancements
-- [ ] Fine-tuned NER models for medical domain
-- [ ] Multi-language support
-- [ ] Time-series analysis for cure effectiveness trends
-- [ ] RAG-based chatbot for querying extracted knowledge
-- [ ] SQLite persistence for historical tracking
-
-## 📄 License
-MIT License — feel free to use for hackathons, prototypes, or research.
-
 ---
 
 ## NLP Pipeline Details
